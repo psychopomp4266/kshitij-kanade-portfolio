@@ -241,14 +241,14 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
    CONTENT. Edit here. A link set to null renders as a dashed
    "link to be added" placeholder; replace null with a URL later.
    ============================================================ */
-const PHOTO = assets/Kshitij_Pic.jpg; // later: set to "assets/photo.jpg" or a data: URI
+const PHOTO = "assets/Kshitij_Pic.jpg" ; // later: set to "assets/photo.jpg" or a data: URI
 
 const PROFILE = {
   name: "Kshitij Kanade",
   tagline: "Computer engineering student building across hardware and software, from embedded and real-time systems to parallel computing and machine learning.",
   summary: "Electrical & Computer Engineering graduate student at UC San Diego with a technical background spanning industry, research, personal projects and technical leadership. Experience ranges from embedded systems, cybersecurity and robotics to computational engineering, machine learning and system automation, with a foundation in C/C++, Python and Verilog/VHDL. Looking to build on this breadth while developing deep specialization in a high-impact technical domain.",
   location: "San Diego, CA",
-  email: "kjk.nitt@gmail.com", "kkanade@ucsd.edu",
+  email: ["kjk.nitt@gmail.com", "kkanade@ucsd.edu"],
   linkedin: "https://www.linkedin.com/in/kshitij-kanade",
   github: "https://github.com/psychopomp4266/",
   stats: [
@@ -353,7 +353,7 @@ const CERTS = [
 /* Resume versions. To add a role-specific version, drop a PDF in resumes/ and add a line here. */
 const RESUMES = [
   { id: "master", label: "Master resume", file: "resumes/Kshitij_Kanade_Master.pdf" },
-  { id: "1 Page", label: "1 Page / GPU", file: "resumes/Kshitij_Kanade_GPU.pdf" }
+  { id: "gpu", label: "1 Page / GPU", file: "resumes/Kshitij_Kanade_GPU.pdf" }
 ];
 
 /* ============================================================ */
@@ -402,8 +402,7 @@ V.home = () => `
     <h3>At a glance</h3>
     <dl>
       ${PROFILE.spec.map(r => `<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join("")}
-      <dt>Email</dt><dd><span id="emailTxt">${esc(PROFILE.email)}</span><button class="copy" type="button" data-copy="${esc(PROFILE.email)}">Copy</button></dd>
-      <dt>Profiles</dt><dd>${L("LinkedIn", PROFILE.linkedin)} ${L("GitHub", PROFILE.github)}</dd>
+            <dt>Email</dt><dd>${PROFILE.emails.map(m => `<span style="display:inline-flex;align-items:center;gap:8px"><span>${esc(m)}</span><button class="copy" type="button" data-copy="${esc(m)}">Copy</button></span>`).join("")}</dd>
     </dl>
   </section>`;
 
