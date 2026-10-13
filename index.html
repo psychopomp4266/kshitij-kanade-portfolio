@@ -284,7 +284,7 @@ const PROFILE = {
   name: "Kshitij Kanade",
   tagline: "Computer engineering student building across hardware and software, from embedded and real-time systems to parallel computing and machine learning.",
   summary: "Electrical & Computer Engineering graduate student at UC San Diego with a technical background spanning industry, research, personal projects and technical leadership. Experience ranges from embedded systems, cybersecurity and robotics to computational engineering, machine learning and system automation, with a foundation in C/C++, Python and Verilog/VHDL. Looking to build on this breadth while developing deep specialization in a high-impact technical domain.",
-  location: "San Diego, CA",
+  location: "San Diego, CA 92092, USA",
   emails: ["kjk.nitt@gmail.com", "kkanade@ucsd.edu"],
   linkedin: "https://www.linkedin.com/in/kshitij-kanade",
   github: "https://github.com/psychopomp4266/",
@@ -520,7 +520,7 @@ V.resume = () => head("Resume") + `
 $("#nav").innerHTML = TABS.map(t => `<li><a href="#${t[0]}" data-tab="${t[0]}">${t[1]}</a></li>`).join("");
 $("#railLinks").innerHTML = L("LinkedIn", PROFILE.linkedin) + L("GitHub", PROFILE.github);
 $("#main").innerHTML = TABS.map(t => `<div class="view" id="view-${t[0]}" hidden>${V[t[0]]()}</div>`).join("") +
-  `<footer>Kshitij Kanade · San Diego, CA</footer>`;
+  `<footer>Kshitij Kanade · San Diego, CA 92092, USA</footer>`;
 
 function show() {
   let id = (location.hash || "").replace("#", "");
