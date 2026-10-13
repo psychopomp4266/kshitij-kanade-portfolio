@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfolio of Kshitij Kanade: M.S. Electrical and Computer Engineering at UC San Diego.">
 <title>Kshitij Kanade</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,7 +108,7 @@ main { min-width: 0; }
 .photo { position: relative; width: 220px; max-width: 100%; aspect-ratio: 1; justify-self: end; }
 .photo svg.ring { position: absolute; inset: -18px; width: calc(100% + 36px); height: calc(100% + 36px); }
 .photo .frame { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; background: var(--surface2); border: 1px solid var(--line); display: grid; place-items: center; }
-.photo .frame img { width: 100%; height: 100%; object-fit: cover; }
+.photo .frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 6%; }
 .photo .frame span { font: 700 56px var(--f-display); color: var(--accent); letter-spacing: -0.02em; }
 .photo .frame small { position: absolute; bottom: 22%; font: 400 11px var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
 
@@ -139,6 +145,25 @@ main { min-width: 0; }
 .steps div { font: 400 13px/1.5 var(--f-mono); color: var(--muted); }
 .steps div b { color: var(--fg); font-weight: 500; }
 
+
+/* ---- collapsible entries ---- */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: -12px 0 24px; }
+.btn.small { padding: 8px 13px; font-size: 13px; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn:disabled:hover { border-color: var(--line); }
+.entry .body { min-width: 0; }
+.entry .head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.entry .titles { min-width: 0; cursor: pointer; }
+.toggle { appearance: none; flex: none; width: 36px; height: 36px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 8px; display: grid; place-items: center; cursor: pointer; }
+.toggle:hover { color: var(--accent); border-color: var(--accent); }
+.toggle svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s ease; }
+.entry.open .toggle svg { transform: rotate(180deg); }
+.entry .org:empty { display: none; }
+.entry .meta.stack { flex-direction: column; align-items: flex-start; gap: 8px; }
+.entry .details { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .28s ease; }
+.entry.open .details { grid-template-rows: 1fr; }
+.entry .details-inner { overflow: hidden; min-height: 0; }
+
 /* ---- skills ---- */
 .groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .group { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
@@ -174,6 +199,7 @@ main { min-width: 0; }
 .urlrow { display: flex; gap: 8px; width: 100%; align-items: center; }
 .urlrow code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font: 400 12px var(--f-mono); padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; text-align: left; background: var(--bg); }
 
+#err { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 99; background: #b3261e; color: #fff; padding: 12px 14px; border-radius: 8px; font: 500 13px/1.45 var(--f-mono); }
 footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); font: 400 12px/1.5 var(--f-mono); color: var(--muted); }
 
 /* ---- phone / tablet ---- */
@@ -202,9 +228,20 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
   .spec dt { padding-bottom: 0; border-bottom: 0; }
   .spec dd { padding-top: 4px; }
 }
-@media (prefers-reduced-motion: reduce) { .view { animation: none; } html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { .view { animation: none; } html { scroll-behavior: auto; } .entry .details, .toggle svg { transition: none; } }
 </style>
+</head>
+<body>
 
+<div id="err" role="alert" hidden></div>
+<noscript>This site needs JavaScript turned on.</noscript>
+<script>
+window.addEventListener("error", function (e) {
+  var b = document.getElementById("err"); if (!b) return;
+  b.hidden = false;
+  b.textContent = "Page error: " + e.message + " (line " + e.lineno + "). Press F12, open Console, and send a screenshot.";
+});
+</script>
 <div class="shell">
   <aside class="rail">
     <div class="brand">
@@ -241,20 +278,20 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
    CONTENT. Edit here. A link set to null renders as a dashed
    "link to be added" placeholder; replace null with a URL later.
    ============================================================ */
-const PHOTO = "../assets/Kshitij_Pic.jpg" ; // later: set to "assets/photo.jpg" or a data: URI
+const PHOTO = "assets/Kshitij_Pic.jpg" ; // later: set to "assets/photo.jpg" or a data: URI
 
 const PROFILE = {
   name: "Kshitij Kanade",
   tagline: "Computer engineering student building across hardware and software, from embedded and real-time systems to parallel computing and machine learning.",
   summary: "Electrical & Computer Engineering graduate student at UC San Diego with a technical background spanning industry, research, personal projects and technical leadership. Experience ranges from embedded systems, cybersecurity and robotics to computational engineering, machine learning and system automation, with a foundation in C/C++, Python and Verilog/VHDL. Looking to build on this breadth while developing deep specialization in a high-impact technical domain.",
   location: "San Diego, CA",
-  email: ["kjk.nitt@gmail.com", "kkanade@ucsd.edu"],
+  emails: ["kjk.nitt@gmail.com", "kkanade@ucsd.edu"],
   linkedin: "https://www.linkedin.com/in/kshitij-kanade",
   github: "https://github.com/psychopomp4266/",
   stats: [
     ["9.13/10", "B.Tech GPA, NIT Tiruchirappalli"],
     ["3 labs", "Research at IIT Bombay (2) and IIT Kharagpur"],
-    ["30 min → <7 s", "Alert runtime after rule migration at Vajra"],
+    ["30 min → <7 s", "Alert runtime after rule migration at Vajra"],
     ["AIR 2", "mBAJA Phase 1 nationally, PSI Racing"]
   ],
   spec: [
@@ -264,6 +301,8 @@ const PROFILE = {
     ["Interests", "Computer architecture, VLSI, parallel computing, embedded systems, ML acceleration"]
   ]
 };
+
+const EMAILS = [].concat(PROFILE.emails || PROFILE.email || []);
 
 const EDUCATION = [
   { school: "University of California, San Diego", place: "La Jolla, California, US", degree: "Master of Science, Electrical and Computer Engineering", track: "Track: Computer Engineering", date: "Expected June 2028", gpa: null,
@@ -402,7 +441,7 @@ V.home = () => `
     <h3>At a glance</h3>
     <dl>
       ${PROFILE.spec.map(r => `<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join("")}
-            <dt>Email</dt><dd>${PROFILE.emails.map(m => `<span style="display:inline-flex;align-items:center;gap:8px"><span>${esc(m)}</span><button class="copy" type="button" data-copy="${esc(m)}">Copy</button></span>`).join("")}</dd>
+            <dt>Email</dt><dd>${EMAILS.map(m => `<span style="display:inline-flex;align-items:center;gap:8px"><span>${esc(m)}</span><button class="copy" type="button" data-copy="${esc(m)}">Copy</button></span>`).join("")}</dd>
     </dl>
   </section>`;
 
@@ -418,38 +457,46 @@ V.education = () => head("Education", "Graduate and undergraduate study in elect
     </div>
   </article>`).join("")}</div>`;
 
-V.experience = () => head("Work experience", "Research and industry-style internships in cybersecurity, computational electromagnetics and robotics.") + `<div class="entries">${EXPERIENCE.map(e => `
-  <article class="entry">
-    <div class="when"><b>${esc(e.date)}</b>${esc(e.place)}</div>
-    <div>
-      <h3>${esc(e.role)}</h3>
-      <p class="org">${esc(e.org)}</p>
-      <div class="meta"><span class="label">Under ${esc(e.sup)}</span>${L("Certificate", e.cert)}</div>
-      ${pts(e.pts)}
-      ${tags(e.tags)}
+/* collapsible entry used by Experience, Projects and Leadership */
+const CHEV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+let UID = 0;
+function entry(o) {
+  const id = "details-" + (++UID);
+  return `
+  <article class="entry collapsible">
+    <div class="when"><b>${esc(o.date)}</b>${esc(o.place)}</div>
+    <div class="body">
+      <div class="head">
+        <div class="titles"><h3>${esc(o.title)}</h3><p class="org">${esc(o.sub)}</p></div>
+        <button class="toggle" type="button" aria-expanded="false" aria-controls="${id}" aria-label="Details: ${esc(o.title)}">${CHEV}</button>
+      </div>
+      ${o.meta ? `<div class="meta stack">${o.meta}</div>` : ""}
+      <div class="details" id="${id}" inert><div class="details-inner">${o.details}</div></div>
     </div>
-  </article>`).join("")}</div>`;
+  </article>`;
+}
+const toolbar = () => `<div class="toolbar" role="group" aria-label="Expand or collapse all entries"><button class="btn small" type="button" data-all="open">Expand all</button><button class="btn small" type="button" data-all="close">Collapse all</button></div>`;
 
-V.projects = () => head("Projects", "Personal builds in parallel computing and system automation.") + `<div class="entries">${PROJECTS.map(e => `
-  <article class="entry">
-    <div class="when"><b>${esc(e.date)}</b>${esc(e.place)}</div>
-    <div>
-      <h3>${esc(e.name)}</h3>
-      <div class="meta">${L("GitHub repo", e.repo)}</div>
-      ${pts(e.pts)}
-      ${tags(e.tags)}
-    </div>
-  </article>`).join("")}</div>`;
+V.experience = () => head("Work experience", "Research and industry-style internships in cybersecurity, computational electromagnetics and robotics.") + toolbar() +
+  `<div class="entries">${EXPERIENCE.map(e => entry({
+    date: e.date, place: e.place, title: e.role, sub: e.org,
+    meta: `<span class="label">Under ${esc(e.sup)}</span>${L("Certificate", e.cert)}`,
+    details: pts(e.pts) + tags(e.tags)
+  })).join("")}</div>`;
 
-V.leadership = () => head("Leadership", "Technical and organizational leadership across racing, engineering and academic societies.") + `<div class="entries">${LEADERSHIP.map(e => `
-  <article class="entry">
-    <div class="when"><b>${esc(e.date)}</b>${esc(e.place)}</div>
-    <div>
-      <h3>${esc(e.org)}</h3>
-      <p class="org">${esc(e.role)}</p>
-      ${pts(e.pts)}
-    </div>
-  </article>`).join("")}</div>`;
+V.projects = () => head("Projects", "Personal builds in parallel computing and system automation.") + toolbar() +
+  `<div class="entries">${PROJECTS.map(e => entry({
+    date: e.date, place: e.place, title: e.name, sub: "",
+    meta: L("GitHub repo", e.repo),
+    details: pts(e.pts) + tags(e.tags)
+  })).join("")}</div>`;
+
+V.leadership = () => head("Leadership", "Technical and organizational leadership across racing, engineering and academic societies.") + toolbar() +
+  `<div class="entries">${LEADERSHIP.map(e => entry({
+    date: e.date, place: e.place, title: e.org, sub: e.role,
+    meta: "",
+    details: pts(e.pts)
+  })).join("")}</div>`;
 
 V.skills = () => head("Skills", "Languages, tools and frameworks used across projects and research.") + `<div class="groups">${SKILLS.map(g => `
   <section class="group${g[2] ? " wide" : ""}"><h3>${esc(g[0])}</h3>${tags(g[1])}</section>`).join("")}</div>`;
@@ -503,6 +550,36 @@ document.addEventListener("click", e => {
   const b = e.target.closest("[data-copy]"); if (b) copyText(b.dataset.copy, b);
 });
 
+
+/* expand / collapse entries */
+function setOpen(art, open) {
+  art.classList.toggle("open", open);
+  art.querySelector(".toggle").setAttribute("aria-expanded", String(open));
+  art.querySelector(".details").inert = !open;
+}
+function syncToolbar(view) {
+  const arts = [...view.querySelectorAll(".entry.collapsible")];
+  const open = arts.filter(a => a.classList.contains("open")).length;
+  const ex = view.querySelector('[data-all="open"]'), co = view.querySelector('[data-all="close"]');
+  if (ex) ex.disabled = open === arts.length;
+  if (co) co.disabled = open === 0;
+}
+document.querySelectorAll(".view").forEach(syncToolbar);
+document.addEventListener("click", e => {
+  const all = e.target.closest("[data-all]");
+  if (all) {
+    const view = all.closest(".view"), open = all.dataset.all === "open";
+    view.querySelectorAll(".entry.collapsible").forEach(a => setOpen(a, open));
+    syncToolbar(view); return;
+  }
+  const hit = e.target.closest(".toggle, .titles");
+  if (hit) {
+    const art = hit.closest(".entry");
+    setOpen(art, !art.classList.contains("open"));
+    syncToolbar(art.closest(".view"));
+  }
+});
+
 /* theme */
 const root = document.documentElement;
 try { const t = localStorage.getItem("kk-theme"); if (t) root.dataset.theme = t; } catch (e) {}
@@ -529,3 +606,5 @@ dlg.addEventListener("click", e => { if (e.target === dlg) dlg.hidden = true; })
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !dlg.hidden) dlg.hidden = true; });
 $("#copyUrl").addEventListener("click", e => copyText($("#qrUrl").textContent, e.currentTarget));
 </script>
+</body>
+</html>
